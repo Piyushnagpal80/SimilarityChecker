@@ -182,13 +182,14 @@ app.get('/profile/student', (req, res) => {
     
                 contentType:req.file.mimetype,
                 path:req.file.path,
-                image:new Buffer(encode_file,'base64')
+                image:new Buffer(encode_file,'base64'),
+                key: `${global.name}`
                 
             };
     
             //insert the image to the database
     
-            db.collection( 'File' ).insertOne(finalFile,(err,result)=>{
+            db.collection( 'Student1' ).insertOne(finalFile,(err,result)=>{
                 // console.log(result);
     
                 if(err) return console.log(err);
@@ -197,107 +198,11 @@ app.get('/profile/student', (req, res) => {
     
                 // res.contentType(finalFile.contentType);
     
-                res.render('studentProfile.pug');
+                res.send("Your file has been uploaded to DataBase");
             })
         }
     })
 // }
-// else if(name=="Student2"){
-//     app.post('/uploadfile2',upload.single('myFile2'),(req,res)=>{
-//         // console.log(req.file);
-    
-//         // if( req.file.mimetype=='application/pdf' ){
-//         //     const pdffile = fs.readFileSync(req.file.path);
-    
-//         //     pdfparse(pdffile).then(function(data){
-//         //         console.log(data.text);
-//         //     })
-//         // }
-    
-//         if( req.file.mimetype=='application/pdf' ){
-//             fs.readFile(req.file.path,function(err,pdffile){
-//                 if (err) return console.error(err,'line 154');
-    
-//                 pdfparse(pdffile).then(function(data){
-//                     // console.log(data.text);
-//                     fs.writeFile('uploads/second.txt',data.text,function(){
-//                         // var file = fs.readFileSync('uploads/first.txt');
-//                         fs.readFile('uploads/second.txt',function(err,file){
-//                             if (err) return console.error(err,'line 293');
-    
-                            
-//                             var encode_file = file.toString('base64');
-            
-//                             // define a json object for file
-            
-//                             var finalFile = {
-            
-//                                 contentType:req.file.mimetype,
-//                                 path:req.file.path,
-//                                 image:new Buffer(encode_file,'base64')
-                                
-//                             };
-            
-//                             //insert the image to the database
-            
-//                             db.collection( 'File2' ).insertOne(finalFile,(err,result)=>{
-//                                 // console.log(result);
-            
-//                                 if(err) return console.log(err);
-            
-//                                 console.log("saved to database2");
-            
-//                                 // res.contentType(finalFile.contentType);
-            
-//                                 res.sendFile(__dirname+'/index.html');
-//                             })
-//                         })
-        
-//                         // ------------------------------------
-        
-                        
-//                     });
-//                 },()=>{
-//                     console.log('Promise rejection from line 328')
-//                     res.send("PDF Parsing Error");
-//                 }) 
-    
-//             })
-               
-//         }else{
-//             var file = fs.readFileSync(req.file.path);
-//             // console.log(file);
-    
-//             var encode_file = file.toString('base64');
-    
-//             // define a json object for file
-    
-//             var finalFile = {
-    
-//                 contentType:req.file.mimetype,
-//                 path:req.file.path,
-//                 image:new Buffer(encode_file,'base64')
-                
-//             };
-    
-//             //insert the image to the database
-    
-//             db.collection( 'File2' ).insertOne(finalFile,(err,result)=>{
-//                 // console.log(result);
-    
-//                 if(err) return console.log(err);
-    
-//                 console.log("saved to database2");
-    
-//                 // res.contentType(finalFile.contentType);
-    
-//                 res.sendFile(__dirname+'/index.html');
-//             })
-//         }
-//     })
-// }
-
-
 
 
 
@@ -374,7 +279,7 @@ app.get('/getPlagDropDown',(req,res,next)=>{
     var user1 = req.query.selectpicker;
     var user2 = req.query.selectpicker2;
 
-    console.log(user1);
+    // console.log(user1);
 
     // console.log(db.collection("Student1").find({key:`${user1}`}));
     db.collection("Student1").find({key:`${user1}`}).toArray( function(err, result) {  
@@ -404,6 +309,32 @@ app.get('/getPlagDropDown',(req,res,next)=>{
             })
     next();
 }, (req,res) =>{
+    setTimeout(()=>{
+            
+        // console.log(str1,'@@@@@@@',str2);
+        res.send("Similarity is:"+levenshtein(str1,str2));
+    },2000)
+})
+
+
+
+// N X N starts
+
+app.get('/getPlagAll',(req,res,next)=>{
+    db.collection("Student1").find({key:'Student1'}).toArray( function(err, result) {  
+        if(err){
+            console.log(err);
+        }else{
+            console.log(result);
+            // str1 =  result[result.length-1].image.toString();
+            // console.log(str1);
+            // console.log(result[result.length-1].image.toString());
+            // res.send(str1);
+        }
+        
+    })
+    next();
+},(req,res) =>{
     setTimeout(()=>{
             
         // console.log(str1,'@@@@@@@',str2);
