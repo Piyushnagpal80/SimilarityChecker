@@ -9,25 +9,42 @@ html
         style 
             include ../css/teacherProfile.css
     body
-        
-        form#tableForm(action='/getPlagDropDown' method='get')
-            select.selectpicker(name='selectpicker')
-                option(name='' value='0') Select Student
-                option(name='Student1' value='Student1') Student 1
-                option(name='Student2' value='Student2') Student 2
-                option(name='Student3' value='Student3') Student 3
-                option(name='Student4' value='Student4') Student 4
-            select.selectpicker2(name='selectpicker2')
-                option(name='' value='0') Select Another Student
-                option(name='Student1' value='Student1') Student 1
-                option(name='Student2' value='Student2') Student 2
-                option(name='Student3' value='Student3') Student 3
-                option(name='Student4' value='Student4') Student 4
-            input(type='submit')
-        br
-        h3 Check Similarity of Each document with every other Document :
-        form#getAll(action='/getPlagAll' method='get')
-            input(type='submit' value='check')
+        div.centerHorizontal
+                div.userName
+                    p User Name
+                div.centerVertical
+                    div.profileSection
+                        div.profileBar.card
+                            div.card-header Profile 
+                            ul.list-group.list-group-flush
+                                li.list-group-item Joined
+                                li.list-group-item First Name
+                                li.list-group-item Last Name
+                        div.socialMedia.card
+                            div.card-header College
+                            ul.list-group.list-group-flush
+                                li.list-group-item Maharaja Agrasen Institute of Technology
+                        div.socialMedia.card
+                            div.card-header Course
+                            ul.list-group.list-group-flush
+                                li.list-group-item Bachelors of Technology
+                    div.form
+                        form#tableForm(action='/getPlagDropDown' method='get')
+                            select.selectpicker(name='selectpicker')
+                                //- optgroup(label='Select Student')
+                                option(name='' value='0') Select Student
+                                option(name='Student1' value='Student1') Student 1
+                                option(name='Student2' value='Student2') Student 2
+                                option(name='Student3' value='Student3') Student 3
+                                option(name='Student4' value='Student4') Student 4
+                            select.selectpicker2(name='selectpicker2')
+                                //- optgroup(label='Select Another Student')
+                                option(name='' value='0') Select Another Student
+                                option(name='Student1' value='Student1') Student 1
+                                option(name='Student2' value='Student2') Student 2
+                                option(name='Student3' value='Student3') Student 3
+                                option(name='Student4' value='Student4') Student 4
+                            input(type='submit')
 
     script(src='https://kit.fontawesome.com/b99e675b6e.js')
     script(src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous")

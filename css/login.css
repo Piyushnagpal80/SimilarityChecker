@@ -1,11 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital@1&display=swap');
+
 body {
     margin: 0;
     padding: 0;
-    background: url("https://i.pinimg.com/originals/8a/ce/59/8ace59fb64006df42df015203a27864d.jpg");
-    background-size: cover;
-    background-position: center;
+    background: url('https://static1.bigstockphoto.com/7/1/3/large1500/317867956.jpg') no-repeat center/cover;
+    background-attachment: fixed;
+    background-blend-mode: darken;
     font-family: 'Poppins', sans-serif;
+}
+
+.bgimg {
+    background: linear-gradient(rgba(60, 183, 240, 0.7), rgba(255, 122, 144, 0.705));
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    top: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .loginbox {
@@ -13,13 +25,10 @@ body {
     background: rgba(0, 0, 0, 0.85);
     background-blend-mode: darken;
     box-shadow: 2px 2px 1rem black;
+    border-radius: 10px;
     color: #fff;
-    top: 50%;
-    left: 50%;
-    position: absolute;
-    transform: translate(-50%, -50%);
     box-sizing: border-box;
-    padding: 40px 30px;
+    padding: 10px 30px;
 }
 
 .avatar {
@@ -33,21 +42,15 @@ body {
 
 h1 {
     margin: 0;
-    padding: 0 0 20px;
+    padding: 0 0 15px;
     text-align: center;
     text-transform: uppercase;
-    font-size: 2.5rem;
-}
-
-.login {
-    margin: 0;
-    padding: 0;
-    font-weight: bold;
+    font-size: 2.2rem;
 }
 
 .loginbox input[type="text"], input[type="password"], input[type="email"] {
     width: 100%;
-    margin: 20px 0;
+    margin: 15px 0;
     border: none;
     border-bottom: 1px solid #fff;
     background: transparent;
@@ -60,25 +63,27 @@ h1 {
 
 .loginbox input[type="submit"] {
     width: 100%;
-    padding: 0.5rem 0;
+    padding: 0.2rem 0;
     margin-bottom: 20px;
     border: none;
     outline: none;
     background: #fb2525;
     color: #fff;
-    font-size: 1.7rem;
+    font-size: 1.5rem;
     border-radius: 20px;
 }
 
-.loginbox input[type="radio"]{
+.loginbox input[type="radio"] {
     cursor: pointer;
     margin: 1.5rem 0;
     margin-right: 0.4rem;
     margin-left: 0.4rem;
 }
 
-.loginbox label{
+.loginbox label {
     margin: 1.5rem 0.4rem;
+    
+    margin-top: 1rem;
     font-size: 1.3rem;
     text-transform: uppercase;
 }
@@ -105,35 +110,36 @@ h1 {
     color: #ffc107;
 }
 
-@media only screen and (max-width: 1123px){
-    .loginBox{
-        width: 61%;
+@media only screen and (max-width: 1123px) {
+    .loginBox {
+        width: 55%;
     }
 }
 
-@media only screen and (max-width: 923px){
-    .loginBox{
-        width: 71%;
+@media only screen and (max-width: 923px) {
+    .loginBox {
+        width: 50%;
     }
 }
 
-@media only screen and (max-width: 793px){
-    .loginBox{
+@media only screen and (max-width: 793px) {
+    .loginBox {
         width: 81%;
     }
 }
 
-@media only screen and (max-width: 700px){
-    .loginBox{
+@media only screen and (max-width: 700px) {
+    .loginBox {
         width: 90%;
     }
 }
 
-@media only screen and (max-width: 626px){
-    .loginBox{
+@media only screen and (max-width: 626px) {
+    .loginBox {
         width: 90%;
     }
-    .loginBox .myForm a[href="*"]{
+
+    .loginBox .myForm a[href="*"] {
         display: none;
     }
 }

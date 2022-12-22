@@ -13,14 +13,6 @@ const loginInfoSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    skill: {
-        type: String,
-        required: true
-    },
-    phone: {
-        type: String,
-        required: true
-    },
     college: {
         type: String,
         required: true

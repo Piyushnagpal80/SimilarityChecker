@@ -34,9 +34,9 @@ router.get('/logout', (req, res) => {
 //Register Page
 router.get('/register', (req, res) => res.status(200).render('register'));
 router.post('/register', (req, res) => {
-    const { name, email, skill, phone, college, password, password2, type } = req.body;
+    const { name, email, college, password, password2, type } = req.body;
     let msg = "";
-    if (!name || !email || !skill || !phone || !college || !password || !password2 || !type) {
+    if (!name || !email || !college || !password || !password2 || !type) {
         msg = "Please Fill in all Fields.";
     }
     if (password != password2) {
@@ -57,10 +57,10 @@ router.post('/register', (req, res) => {
                     res.render('error.pug', { msg });
                 }
                 else {
-                    const newloginInfo = new loginInfo({ name, email, skill, phone, college, password, type });
+                    const newloginInfo = new loginInfo({ name, email, college, password, type });
                     bcrypt.genSalt(10, (err, salt) =>
                         bcrypt.hash(newloginInfo.password, salt, (err, hash) => {
-                            if (err) 
+                            if (err)
                                 throw err;
                             newloginInfo.password = hash;
                             newloginInfo.save().then(() => {

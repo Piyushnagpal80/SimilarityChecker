@@ -13,9 +13,7 @@ const loginInfo = require('./schema');
 router.get('/teacher', (req, res) => {
     const params = { 
         user: req.user.name,
-        skill: req.user.skill,
         college: req.user.college, 
-        phone: req.user.phone,
         email: req.user.email,
         expressMessage: req.flash('success') }
     res.render('teacherProfile.pug', params);

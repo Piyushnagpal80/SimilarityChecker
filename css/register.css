@@ -1,10 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital@1&display=swap');
 body {
+    margin: 0;
+    padding: 0;
     height: 100%;
-    background: rgba(0, 0, 0, 0.6) url('https://wallpaperset.com/w/full/7/e/3/180293.jpg') no-repeat center/cover;
+    background: url('https://static1.bigstockphoto.com/7/1/3/large1500/317867956.jpg') no-repeat center/cover;
     background-attachment: fixed;
     background-blend-mode: darken;
     font-family: 'Poppins', sans-serif;
+}
+
+.bgimg {
+    background: linear-gradient(rgba(60, 183, 240, 0.7), rgba(255, 122, 144, 0.705));
+    width: 100%;
 }
 
 h1 {
@@ -12,7 +19,7 @@ h1 {
     font-weight: bolder;
     font-size: 3rem;
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
 }
 
 #myForm {
@@ -21,7 +28,7 @@ h1 {
 
 .form-group, .form-group div {
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
 }
 
@@ -48,7 +55,7 @@ h1 {
 
 label {
     text-transform: uppercase;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     margin-bottom: 0;
 }
 
@@ -59,4 +66,10 @@ input[type="radio"] {
 .btn {
     font-size: larger;
     text-transform: uppercase;
+    width: 90%;
+}
+
+.buttons{
+    display: flex;
+    flex-direction: column;
 }
