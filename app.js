@@ -94,7 +94,8 @@ app.get('/profile/student', (req, res) => {
 
 
 
-// global.type= global.name=="Student1"? upload.single('Student1'): global.name=="Student2"?upload.single('Student2') : global.name=="Student3"?upload.single('Student3'):upload.single('Student4');
+// global.type= global.name=="Student1"? upload.single('Student1'): global.name=="Student2"?upload.single('Student2') 
+//: global.name=="Student3"?upload.single('Student3'):upload.single('Student4');
 // global.type= global.name=="Student1"? upload.single('Student1'): upload.single('Student2') ;
 // global.type= global.name==="Student1"? app.use(fun1): upload.single('Student2');
 
