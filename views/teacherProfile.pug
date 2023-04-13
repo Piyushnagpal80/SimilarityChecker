@@ -45,6 +45,16 @@ html
                                 option(name='Student3' value='Student3') Student 3
                                 option(name='Student4' value='Student4') Student 4
                             input(type='submit')
+                        form(action='/getPlagAll' method='get')
+                            select.selectpicker(name='selectpicker')
+                                //- optgroup(label='Select Student')
+                                option(name='' value='0') Select Student
+                                option(name='Student1' value='Student1') Student 1
+                                option(name='Student2' value='Student2') Student 2
+                                option(name='Student3' value='Student3') Student 3
+                                option(name='Student4' value='Student4') Student 4
+                            input(type='email' name='email' placeholder='Email')
+                            button(type='submit') Get Plagiarism Report
 
     script(src='https://kit.fontawesome.com/b99e675b6e.js')
     script(src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous")

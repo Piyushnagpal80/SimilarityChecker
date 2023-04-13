@@ -7,6 +7,7 @@ const pdfparse= require('pdf-parse');
 const fs = require('fs');
 var session = require('express-session');
 var flash = require('connect-flash');
+const nodemailer = require('nodemailer');
 const PORT = process.env.PORT || 5000;
 const { ensureAuthenticated, forwardAuthenticated } = require('./routes/auth');
 require('./routes/passport')(passport);
@@ -301,9 +302,6 @@ app.get('/getPlagDropDown',(req,res,next)=>{
                 }else{
                     // console.log(result);
                     str2 =  result[result.length-1].image.toString();
-                    // console.log(str1);
-                    // console.log(result[result.length-1].image.toString());
-                    // res.send(str1);
                 }
                 
             })
@@ -313,31 +311,217 @@ app.get('/getPlagDropDown',(req,res,next)=>{
             
         // console.log(str1,'@@@@@@@',str2);
         res.send("Similarity is:"+levenshtein(str1,str2));
-    },2000)
+    },1000)
 })
 
 
 
 // N X N starts
+let arr = new Array();
+let values = new Array('Student1','Student2','Student3','Student4');
+let student;
+let index;
 
 app.get('/getPlagAll',(req,res,next)=>{
-    db.collection("Student1").find({key:'Student1'}).toArray( function(err, result) {  
-        if(err){
-            console.log(err);
-        }else{
-            console.log(result);
-            // str1 =  result[result.length-1].image.toString();
-            // console.log(str1);
-            // console.log(result[result.length-1].image.toString());
-            // res.send(str1);
-        }
-        
-    })
+
+    student = req.query.selectpicker;
+    // storing last file uploaded by every student in arr array
+    var i;
+
+    for(i=0;i<values.length;i++){
+        // db.collection("Student1").find({key:'Student1'}).toArray( function(err, result) {  
+        db.collection("Student1").find({key:values[i]}).toArray( function(err, result) {  
+            if(err){
+                console.log(err);
+            }else{
+                arr.push(result[result.length-1].image.toString());
+                // console.log(result); // we getting all the files related to Student1 ever submitted in result array
+            }
+            
+        })
+    }
+    
+    index = values.indexOf(student);
+    // console.log(index);
     next();
 },(req,res) =>{
     setTimeout(()=>{
-            
-        // console.log(str1,'@@@@@@@',str2);
-        res.send("Similarity is:"+levenshtein(str1,str2));
-    },2000)
+
+
+        // finding similarity between all students
+        let ans = new Array();
+        var i,j;
+        for(i=0;i<values.length;i++){
+            if(i==index){
+                continue;
+            }else{
+                ans.push(`Similarity Between ${values[index]} and ${values[i]} is: `+levenshtein(arr[i],arr[index]));
+            }
+        }
+
+
+        // let output = '';
+        // ans.forEach(element => {
+        //     output += element + '<br>'; // add line break after each element
+        // });
+
+        // res.send(output);
+
+
+        // Use the map function to create a new array of HTML elements
+        const listItems = ans.map((item) => {
+            return `<li>${item}</li>`;
+        });
+
+        // Use the join function to concatenate the array into a string
+        const listItemsHtml = listItems.join('\n');
+
+        // displaying report on new webpage
+        // res.send(`
+        //         <!doctype html>
+        //         <html>
+        //         <head>
+        //             <title>Plagirism Report</title>
+        //             <style>
+        //             /* Add some styles to the list items */
+        //             li {
+        //                 font-size: 20px;
+        //                 line-height: 1.5;
+        //                 color: #333;
+        //             }
+        //             </style>
+        //         </head>
+        //         <body>
+        //             <ul>
+        //             ${listItemsHtml}
+        //             </ul>
+        //         </body>
+        //         </html>
+        //     `);
+        res.send(`
+        <!doctype html>
+        <html>
+          <head>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Plagirism Report</title>
+            <style>
+              /* Add some styles to the list items */
+              li {
+                font-size: 16px;
+                line-height: 1.5;
+                color: #333;
+                margin-bottom: 10px;
+              }
+              /* Add some styles to the headings */
+              h1, h2 {
+                color: #333;
+                font-weight: 600;
+                margin-top: 0;
+              }
+              /* Add some styles to the container */
+              .container {
+                max-width: 600px;
+                margin: 0 auto;
+                padding: 20px;
+                font-family: Arial, sans-serif;
+                background-color: #f2f2f2;
+              }
+            </style>
+          </head>
+          <body>
+            <div class="container">
+              <h1>PlagBuster</h1>
+              <p>Dear CourseStaff,</p>
+              <p>Here is your requested plagiarized report:</p>
+              <ul>
+                ${listItemsHtml}
+              </ul>
+            </div>
+          </body>
+        </html>
+        
+            `);
+
+
+            // sending report to email (using nodemailer)
+            let transporter = nodemailer.createTransport({
+                service: 'gmail',
+                host: 'smtp.gmail.com',
+                port: 465,
+                secure: true, // true for 465, false for other ports
+                auth: {
+                  user: 'piyushnagpal14@gmail.com', 
+                  pass: 'bytbwbfdbmpsnkdf'
+                },
+                tls: {
+                  rejectUnauthorized: false
+                }
+              });
+              
+              const mailOptions = {
+                from: 'piyushnagpal14@gmail.com', // replace with your email
+                to: req.query.email, // replace with the email entered by the user
+                subject: 'Plagiarism Report',
+
+                // text: ans.join('\n') // replace with the data to be sent in the email, displaying each element of array in new line in email
+
+                // sending data in html format (because good practice and displaying each element in new line with pointers as dots in front of each line)
+                html: `<!doctype html>
+                <html>
+                  <head>
+                    <meta charset="UTF-8">
+                    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Plagirism Report</title>
+                    <style>
+                      /* Add some styles to the list items */
+                      li,p{
+                        font-size: 15px;
+                        line-height: 1.5;
+                        color: #333;
+                      }
+                      /* Add some styles to the headings */
+                      h1{
+                        color: #333;
+                        font-weight: 600;
+                        margin-top: 0;
+                      }
+                      /* Add some styles to the container */
+                      .container {
+                        max-width: 600px;
+                        margin: 0 auto;
+                        padding: 20px;
+                        font-family: Arial, sans-serif;
+                        background-color: #f2f2f2;
+                      }
+                    </style>
+                  </head>
+                  <body>
+                    <div class="container">
+                      <h1>PlagBuster</h1>
+                      <p>Dear CourseStaff,</p>
+                      <p>Here is your requested plagiarized report:</p>
+                      <ul style="white-space: pre-wrap;">
+                        ${listItemsHtml}
+                      </ul>
+                    </div>
+                  </body>
+                </html>
+                
+            `
+                // text: ans.map((item, index) => `${index+1}. ${item}`).join('\n') // displaying each element of array in new line with pointers in front of each line in email
+              };
+              
+              transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                  console.log(error);
+                  res.send('Error Occurred!');
+                } else {
+                  console.log('Email sent: ' + info.response);
+                  res.send('Email Sent!');
+                }
+              });
+    },1000)
 })
